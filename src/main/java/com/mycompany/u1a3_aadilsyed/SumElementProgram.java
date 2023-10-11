@@ -19,6 +19,7 @@ public class SumElementProgram extends javax.swing.JFrame {
     
     public SumElementProgram() {
         initComponents();
+        //this is a change
     }
 
     /**
