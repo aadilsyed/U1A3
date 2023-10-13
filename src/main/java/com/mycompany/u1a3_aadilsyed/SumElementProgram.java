@@ -8,6 +8,7 @@ package com.mycompany.u1a3_aadilsyed;
  *
  * @author 343003513
  */
+import java.util.*;
 public class SumElementProgram extends javax.swing.JFrame {
 
     /**
@@ -39,7 +40,7 @@ public class SumElementProgram extends javax.swing.JFrame {
         updateList = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         listArea = new javax.swing.JTextArea();
-        jButton4 = new javax.swing.JButton();
+        sumAll = new javax.swing.JButton();
         jButton5 = new javax.swing.JButton();
         jButton6 = new javax.swing.JButton();
         exit = new javax.swing.JButton();
@@ -87,7 +88,12 @@ public class SumElementProgram extends javax.swing.JFrame {
         listArea.setRows(5);
         jScrollPane1.setViewportView(listArea);
 
-        jButton4.setText("Sum All");
+        sumAll.setText("Sum All");
+        sumAll.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                sumAllActionPerformed(evt);
+            }
+        });
 
         jButton5.setText("Sum Even");
 
@@ -127,7 +133,7 @@ public class SumElementProgram extends javax.swing.JFrame {
                                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                                             .addGroup(layout.createSequentialGroup()
                                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                                    .addComponent(jButton4)
+                                                    .addComponent(sumAll)
                                                     .addComponent(jButton6))
                                                 .addGap(17, 17, 17))
                                             .addGroup(layout.createSequentialGroup()
@@ -168,7 +174,7 @@ public class SumElementProgram extends javax.swing.JFrame {
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(updateList)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jButton4)
+                        .addComponent(sumAll)
                         .addGap(18, 18, 18)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jButton5)
@@ -195,14 +201,22 @@ public class SumElementProgram extends javax.swing.JFrame {
         try {
             int num =  Integer.parseInt(input.getText());
             if (num > 0){
-                numList[currentIndex] = num;
-                input.setText("");}
+                if (currentIndex < 19){
+                    numList[currentIndex] = num;
+                    input.setText("");
+                    output.setText("");
+                }
+                
+                else {
+                    output.setText("ERROR! The array is full.");
+                    input.setText("");}}
         
             else{
-                output.setText("ERROR! Please enter a postive integer for the input.");}}
+                output.setText("ERROR! Please enter a postive integer for the input.");
+                input.setText("");}}
         catch(Exception e) {
             output.setText("ERROR! Please enter a postive integer for the input.");
-        }
+            input.setText("");}
         
         
         currentIndex ++ ;
@@ -220,15 +234,56 @@ public class SumElementProgram extends javax.swing.JFrame {
 
     private void removeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_removeActionPerformed
         // TODO add your handling code here:
+        try {
+            int num =  Integer.parseInt(input.getText());
+            boolean numInArray = false;
+            
+            for (int i=0; i < numList.length; i++) {
+                if (numList[i] == num){
+                    numInArray = true;
+                    break;}}
+            
+            if (num > 0){
+                if (numInArray){
+                    for (int i = 0; i <= currentIndex; i++){
+                        if (numList[i] == num){
+                            numList[i] = 0;
+                            break;}}
+                    for (int i = 1; i <= currentIndex; i++){
+                        if (numList[i-1] == 0){
+                            numList[i-1] = numList[i];
+                            numList[i] = 0;
+                            currentIndex -- ;}}
+                    input.setText("");
+                }
+                else {
+                    output.setText("ERROR! Number does not exist in array.");
+                }
+            }
+                
+        
+            else{
+                output.setText("ERROR! Please enter a postive integer for the input.");}}
+        catch(Exception e) {
+            output.setText("ERROR! Please enter a postive integer for the input.");}
+        
+        
+        
     }//GEN-LAST:event_removeActionPerformed
 
     private void updateListActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_updateListActionPerformed
         // TODO add your handling code here:
         String strList = "";
         for (int i = 0; i < numList.length; i++){
-            strList += numList[i]+"\n";
-        }
+            if (numList[i] != 0){
+                strList += numList[i]+"\n";}}
+        listArea.setText(strList);
+        output.setText("");
     }//GEN-LAST:event_updateListActionPerformed
+
+    private void sumAllActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_sumAllActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_sumAllActionPerformed
 
     /**
      * @param args the command line arguments
@@ -269,7 +324,6 @@ public class SumElementProgram extends javax.swing.JFrame {
     private javax.swing.JButton add;
     private javax.swing.JButton exit;
     private javax.swing.JTextField input;
-    private javax.swing.JButton jButton4;
     private javax.swing.JButton jButton5;
     private javax.swing.JButton jButton6;
     private javax.swing.JLabel jLabel1;
@@ -279,6 +333,7 @@ public class SumElementProgram extends javax.swing.JFrame {
     private javax.swing.JTextArea listArea;
     private javax.swing.JTextField output;
     private javax.swing.JButton remove;
+    private javax.swing.JButton sumAll;
     private javax.swing.JButton updateList;
     // End of variables declaration//GEN-END:variables
 }
